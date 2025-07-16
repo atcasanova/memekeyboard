@@ -96,5 +96,16 @@ public class MemeManager {
         }
         return results;
     }
+
+    public void deleteMeme(String memePath) {
+        File memeFile = new File(memePath);
+        if (memeFile.exists()) {
+            memeFile.delete();
+        }
+        String memeId = memeFile.getName();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(MEME_KEYWORDS_PREFIX + memeId);
+        editor.apply();
+    }
 }
 
