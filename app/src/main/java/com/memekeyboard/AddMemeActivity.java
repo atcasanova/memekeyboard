@@ -70,7 +70,11 @@ public class AddMemeActivity extends Activity {
         }
 
         String keywordsString = keywordsEditText.getText().toString().trim();
-        Set<String> keywords = new HashSet<>(Arrays.asList(keywordsString.split(",\s*")));
+        // Java 8 does not support the "\s" escape sequence. Use a double
+        // backslash so the regular expression receives "\s*" instead of the
+        // unsupported string escape.
+        Set<String> keywords = new HashSet<>(Arrays.asList(
+                keywordsString.split(",\\s*")));
 
         try {
             memeManager.addMeme(selectedMemeUri, keywords);
