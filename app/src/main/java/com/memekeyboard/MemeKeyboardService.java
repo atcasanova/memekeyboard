@@ -75,15 +75,10 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 final String memePath = (String) memeAdapter.getItem(position);
-                new androidx.appcompat.app.AlertDialog.Builder(MemeKeyboardService.this)
-                        .setTitle(R.string.remove_meme_title)
-                        .setMessage(R.string.remove_meme_message)
-                        .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                            memeManager.deleteMeme(memePath);
-                            refreshMemeList();
-                        })
-                        .setNegativeButton(android.R.string.no, null)
-                        .show();
+                memeManager.deleteMeme(memePath);
+                refreshMemeList();
+                android.widget.Toast.makeText(MemeKeyboardService.this,
+                        R.string.meme_removed_toast, android.widget.Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
