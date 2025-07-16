@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -206,20 +207,36 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
                     getPackageName() + ".fileprovider", memeFile);
             InputConnection ic = getCurrentInputConnection();
             if (ic != null) {
-                String mimeType = getContentResolver().getType(contentUri);
+                String mimeType = memeManager.getMemeMimeType(memePath);
+                if (mimeType == null) {
+                    mimeType = getContentResolver().getType(contentUri);
+                }
                 if (mimeType == null) {
                     mimeType = "image/*";
                 }
+
+                boolean isSticker = memeFile.getName().startsWith("sticker_");
+                Bundle opts = new Bundle();
+                opts.putBoolean("IS_STICKER", isSticker);
 
                 InputContentInfoCompat info = new InputContentInfoCompat(contentUri,
                         new ClipDescription(memeFile.getName(), new String[]{mimeType}), null);
                 EditorInfo editorInfo = getCurrentInputEditorInfo();
                 if (InputConnectionCompat.commitContent(ic, editorInfo, info,
-                        InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION, null)) {
+                        InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION, opts)) {
                     return;
                 }
 
-                // Fallback: copy URI to clipboard
+                if (mimeType.startsWith("audio/") || mimeType.startsWith("video/")) {
+                    Intent share = new Intent(Intent.ACTION_SEND);
+                    share.setType(mimeType);
+                    share.putExtra(Intent.EXTRA_STREAM, contentUri);
+                    share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    share.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(Intent.createChooser(share, getString(R.string.share_meme)));
+                    return;
+                }
+
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newUri(getContentResolver(), "Meme", contentUri);
                 clipboard.setPrimaryClip(clip);
