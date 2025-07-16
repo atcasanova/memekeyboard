@@ -6,8 +6,6 @@
         android:imeSubtypeMode="keyboard" />
     <content
         android:authority="com.memekeyboard.fileprovider"
-        android:mimeType="image/*"
-        android:mimeType="video/*"
-        android:mimeType="audio/*" />
+        android:mimeType="*/*" />
 </input-method>
 
