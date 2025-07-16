@@ -74,6 +74,7 @@ Para compilar e instalar este teclado Android, siga os passos abaixo:
     b.  Procure por `Idioma e entrada` (Language & input) ou `Sistema > Idiomas e entrada`.
     c.  Em `Teclados`, selecione `Teclado virtual` (Virtual keyboard) ou `Gerenciar teclados` (Manage keyboards).
     d.  Ative o `Meme Keyboard`.
+        Se ele não aparecer imediatamente na lista, abra o aplicativo `Meme Keyboard` uma vez e volte para `Gerenciar teclados`.
     e.  Você pode ser avisado sobre os riscos de segurança de teclados de terceiros. Confirme para ativar.
 
 4.  **Alternar para o Teclado de Memes**: Ao usar qualquer aplicativo que exija entrada de texto (como um aplicativo de mensagens):
