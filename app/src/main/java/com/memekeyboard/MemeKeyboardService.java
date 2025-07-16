@@ -227,21 +227,13 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
                     return;
                 }
 
-                if (mimeType.startsWith("audio/") || mimeType.startsWith("video/")) {
-                    Intent share = new Intent(Intent.ACTION_SEND);
-                    share.setType(mimeType);
-                    share.putExtra(Intent.EXTRA_STREAM, contentUri);
-                    share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    Intent chooser = Intent.createChooser(share, getString(R.string.share_meme));
-                    chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(chooser);
-                    return;
-                }
-
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newUri(getContentResolver(), "Meme", contentUri);
                 clipboard.setPrimaryClip(clip);
                 ic.commitText(contentUri.toString(), 1);
+                android.widget.Toast.makeText(this,
+                        R.string.unsupported_direct_share,
+                        android.widget.Toast.LENGTH_SHORT).show();
             }
         }
     }
