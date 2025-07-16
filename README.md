@@ -92,6 +92,10 @@ Para compilar e instalar este teclado Android, siga os passos abaixo:
 
 Seus memes serão armazenados internamente no aplicativo e estarão disponíveis para uso no teclado.
 
+## Limitações
+
+Esta versão removeu a dependência do `ffmpeg-kit` utilizada para converter GIFs ou vídeos curtos em WebP. Caso adicione memes animados como figurinhas, eles serão salvos no formato original, sem conversão para WebP.
+
 ## Licença
 
 Este projeto é de código aberto e está disponível sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes. (Nota: O arquivo LICENSE não está incluído neste README, mas é uma boa prática adicioná-lo ao projeto.)
