@@ -17,6 +17,7 @@ public class MemeManager {
 
     private static final String PREFS_NAME = "MemeKeyboardPrefs";
     private static final String MEME_KEYWORDS_PREFIX = "meme_keywords_";
+    private static final String MEME_TYPE_PREFIX = "meme_type_";
     private static final String MEME_FOLDER_NAME = "memes";
 
     private Context context;
@@ -67,6 +68,9 @@ public class MemeManager {
         }
 
         saveMemeKeywords(fileName, keywords);
+        if (mimeType != null) {
+            saveMemeType(fileName, mimeType);
+        }
         return newMemeFile.getAbsolutePath();
     }
 
@@ -74,6 +78,18 @@ public class MemeManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putStringSet(MEME_KEYWORDS_PREFIX + memeId, keywords);
         editor.apply();
+    }
+
+    private void saveMemeType(String memeId, String mimeType) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(MEME_TYPE_PREFIX + memeId, mimeType);
+        editor.apply();
+    }
+
+    public String getMemeMimeType(String memePath) {
+        File memeFile = new File(memePath);
+        String memeId = memeFile.getName();
+        return sharedPreferences.getString(MEME_TYPE_PREFIX + memeId, null);
     }
 
     public Map<String, Set<String>> getAllMemesWithKeywords() {
@@ -125,6 +141,7 @@ public class MemeManager {
         String memeId = memeFile.getName();
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(MEME_KEYWORDS_PREFIX + memeId);
+        editor.remove(MEME_TYPE_PREFIX + memeId);
         editor.apply();
     }
 }
