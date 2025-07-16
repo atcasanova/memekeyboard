@@ -1,0 +1,4 @@
+com.memekeyboard.test.app-androidTest-0 F:\Users\atcas\AndroidStudioProjects\android-meme-keyboard\app\build\generated\res\resValues\androidTest\debug
+com.memekeyboard.test.app-mergeDebugAndroidTestResources-1 F:\Users\atcas\AndroidStudioProjects\android-meme-keyboard\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.memekeyboard.test.app-mergeDebugAndroidTestResources-2 F:\Users\atcas\AndroidStudioProjects\android-meme-keyboard\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.memekeyboard.test.app-merged_res-3 F:\Users\atcas\AndroidStudioProjects\android-meme-keyboard\app\build\intermediates\merged_res\debugAndroidTest

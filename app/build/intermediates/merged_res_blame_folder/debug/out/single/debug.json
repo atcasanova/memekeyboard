@@ -1,22 +1,54 @@
 [
     {
-        "merged": "com.memekeyboard.app-merged_res-25:/layout_meme_grid_item.xml.flat",
-        "source": "com.memekeyboard.app-main-27:/layout/meme_grid_item.xml"
+        "merged": "com.memekeyboard.app-merged_res-25:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.memekeyboard.app-main-27:/mipmap-xxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.memekeyboard.app-merged_res-25:/layout_keyboard_layout.xml.flat",
-        "source": "com.memekeyboard.app-main-27:/layout/keyboard_layout.xml"
+        "merged": "com.memekeyboard.app-merged_res-25:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.memekeyboard.app-main-27:/mipmap-xhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "com.memekeyboard.app-merged_res-25:/xml_method.xml.flat",
-        "source": "com.memekeyboard.app-main-27:/xml/method.xml"
+        "merged": "C:\\Users\\atcas\\.gradle\\daemon\\8.0\\com.memekeyboard.app-merged_res-25:\\layout_add_meme_layout.xml.flat",
+        "source": "C:\\Users\\atcas\\.gradle\\daemon\\8.0\\com.memekeyboard.app-main-27:\\layout\\add_meme_layout.xml"
     },
     {
-        "merged": "com.memekeyboard.app-merged_res-25:/layout_add_meme_layout.xml.flat",
-        "source": "com.memekeyboard.app-main-27:/layout/add_meme_layout.xml"
+        "merged": "com.memekeyboard.app-merged_res-25:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.memekeyboard.app-main-27:/mipmap-mdpi/ic_launcher.webp"
     },
     {
-        "merged": "com.memekeyboard.app-merged_res-25:/layout_meme_gallery_layout.xml.flat",
-        "source": "com.memekeyboard.app-main-27:/layout/meme_gallery_layout.xml"
+        "merged": "com.memekeyboard.app-merged_res-25:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.memekeyboard.app-main-27:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.memekeyboard.app-merged_res-25:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.memekeyboard.app-main-27:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\atcas\\.gradle\\daemon\\8.0\\com.memekeyboard.app-merged_res-25:\\layout_meme_gallery_layout.xml.flat",
+        "source": "C:\\Users\\atcas\\.gradle\\daemon\\8.0\\com.memekeyboard.app-main-27:\\layout\\meme_gallery_layout.xml"
+    },
+    {
+        "merged": "com.memekeyboard.app-merged_res-25:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.memekeyboard.app-main-27:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\atcas\\.gradle\\daemon\\8.0\\com.memekeyboard.app-merged_res-25:\\xml_method.xml.flat",
+        "source": "C:\\Users\\atcas\\.gradle\\daemon\\8.0\\com.memekeyboard.app-main-27:\\xml\\method.xml"
+    },
+    {
+        "merged": "C:\\Users\\atcas\\.gradle\\daemon\\8.0\\com.memekeyboard.app-merged_res-25:\\layout_meme_grid_item.xml.flat",
+        "source": "C:\\Users\\atcas\\.gradle\\daemon\\8.0\\com.memekeyboard.app-main-27:\\layout\\meme_grid_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\atcas\\.gradle\\daemon\\8.0\\com.memekeyboard.app-merged_res-25:\\layout_keyboard_layout.xml.flat",
+        "source": "C:\\Users\\atcas\\.gradle\\daemon\\8.0\\com.memekeyboard.app-main-27:\\layout\\keyboard_layout.xml"
+    },
+    {
+        "merged": "com.memekeyboard.app-merged_res-25:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.memekeyboard.app-main-27:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.memekeyboard.app-merged_res-25:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.memekeyboard.app-main-27:/mipmap-xxhdpi/ic_launcher_round.webp"
     }
 ]
