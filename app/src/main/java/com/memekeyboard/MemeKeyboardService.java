@@ -221,9 +221,17 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
 
                 InputContentInfoCompat info = new InputContentInfoCompat(contentUri,
                         new ClipDescription(memeFile.getName(), new String[]{mimeType}), null);
+
+                try {
+                    info.requestPermission();
+                } catch (Exception e) {
+                    // Ignore; requesting permission may fail on older APIs
+                }
+
                 EditorInfo editorInfo = getCurrentInputEditorInfo();
                 if (InputConnectionCompat.commitContent(ic, editorInfo, info,
                         InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION, opts)) {
+                    info.releasePermission();
                     return;
                 }
 
