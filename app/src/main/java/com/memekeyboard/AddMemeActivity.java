@@ -24,6 +24,8 @@ public class AddMemeActivity extends Activity {
 
     private EditText keywordsEditText;
     private RadioGroup typeRadioGroup;
+    private RadioButton imageRadioButton;
+    private RadioButton stickerRadioButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +36,12 @@ public class AddMemeActivity extends Activity {
 
         keywordsEditText = findViewById(R.id.keywords_edit_text);
         typeRadioGroup = findViewById(R.id.type_radio_group);
+        imageRadioButton = findViewById(R.id.image_radio);
+        stickerRadioButton = findViewById(R.id.sticker_radio);
         Button selectMemeButton = findViewById(R.id.select_meme_button);
         Button saveMemeButton = findViewById(R.id.save_meme_button);
+
+        updateTypeOptions();
 
         selectMemeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,12 +64,34 @@ public class AddMemeActivity extends Activity {
         startActivityForResult(intent, PICK_MEME_REQUEST);
     }
 
+    private boolean isImageOrVideo(Uri uri) {
+        String mime = getContentResolver().getType(uri);
+        if (mime == null) {
+            String ext = android.webkit.MimeTypeMap.getFileExtensionFromUrl(uri.toString());
+            mime = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext);
+        }
+        return mime != null && (mime.startsWith("image/") || mime.startsWith("video/"));
+    }
+
+    private void updateTypeOptions() {
+        if (selectedMemeUri != null && isImageOrVideo(selectedMemeUri)) {
+            typeRadioGroup.setVisibility(View.VISIBLE);
+            // Ensure some option is checked
+            if (typeRadioGroup.getCheckedRadioButtonId() == -1) {
+                imageRadioButton.setChecked(true);
+            }
+        } else {
+            typeRadioGroup.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_MEME_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             selectedMemeUri = data.getData();
             Toast.makeText(this, "Meme selecionado: " + selectedMemeUri.getPath(), Toast.LENGTH_SHORT).show();
+            updateTypeOptions();
         }
     }
 
@@ -80,7 +108,8 @@ public class AddMemeActivity extends Activity {
         Set<String> keywords = new HashSet<>(Arrays.asList(
                 keywordsString.split(",\\s*")));
 
-        boolean asSticker = typeRadioGroup.getCheckedRadioButtonId() == R.id.sticker_radio;
+        boolean asSticker = typeRadioGroup.getVisibility() == View.VISIBLE &&
+                typeRadioGroup.getCheckedRadioButtonId() == R.id.sticker_radio;
 
         try {
             memeManager.addMeme(selectedMemeUri, keywords, asSticker);

@@ -232,8 +232,9 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
                     share.setType(mimeType);
                     share.putExtra(Intent.EXTRA_STREAM, contentUri);
                     share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    share.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(Intent.createChooser(share, getString(R.string.share_meme)));
+                    Intent chooser = Intent.createChooser(share, getString(R.string.share_meme));
+                    chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(chooser);
                     return;
                 }
 

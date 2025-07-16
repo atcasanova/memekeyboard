@@ -2,6 +2,8 @@ package com.memekeyboard;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,7 +39,7 @@ public class MemeManager {
         String prefix = asSticker ? "sticker_" : "image_";
 
         // Preserve the original file extension so the resulting file has a
-        // proper MIME type when shared through FileProvider.  This helps
+        // proper MIME type when shared through FileProvider. This helps
         // messaging apps correctly identify the content type instead of
         // treating it as plain text.
         String mimeType = context.getContentResolver().getType(memeUri);
@@ -50,20 +52,45 @@ public class MemeManager {
             extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(
                     memeUri.toString());
         }
+        String fileName;
+        File newMemeFile;
 
-        String fileName = prefix + UUID.randomUUID().toString();
-        if (extension != null && !extension.isEmpty()) {
-            fileName += "." + extension;
-        }
+        if (asSticker && mimeType != null && mimeType.startsWith("image/")) {
+            // Convert image to WebP format for stickers
+            fileName = prefix + UUID.randomUUID().toString() + ".webp";
+            newMemeFile = new File(memeFolder, fileName);
 
-        File newMemeFile = new File(memeFolder, fileName);
+            try (InputStream inputStream = context.getContentResolver().openInputStream(memeUri);
+                 FileOutputStream outputStream = new FileOutputStream(newMemeFile)) {
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                if (bitmap != null) {
+                    // Scale down to WhatsApp's recommended size of 512x512 while preserving aspect ratio
+                    int width = bitmap.getWidth();
+                    int height = bitmap.getHeight();
+                    float scale = Math.min(512f / width, 512f / height);
+                    Bitmap scaled = Bitmap.createScaledBitmap(bitmap,
+                            Math.round(width * scale), Math.round(height * scale), true);
+                    scaled.compress(Bitmap.CompressFormat.WEBP, 100, outputStream);
+                    scaled.recycle();
+                }
+            }
 
-        try (InputStream inputStream = context.getContentResolver().openInputStream(memeUri);
-             FileOutputStream outputStream = new FileOutputStream(newMemeFile)) {
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, read);
+            mimeType = "image/webp";
+        } else {
+            fileName = prefix + UUID.randomUUID().toString();
+            if (extension != null && !extension.isEmpty()) {
+                fileName += "." + extension;
+            }
+
+            newMemeFile = new File(memeFolder, fileName);
+
+            try (InputStream inputStream = context.getContentResolver().openInputStream(memeUri);
+                 FileOutputStream outputStream = new FileOutputStream(newMemeFile)) {
+                byte[] buffer = new byte[1024];
+                int read;
+                while ((read = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, read);
+                }
             }
         }
 
