@@ -8,5 +8,7 @@
     <string name="meme_removed_toast">Meme removed</string>
     <string name="share_meme">Share meme</string>
     <string name="unsupported_direct_share">Unable to send directly. Link copied to clipboard.</string>
+    <string name="sticker">Sticker</string>
+    <string name="animated_sticker">Animated Sticker</string>
 </resources>
 
