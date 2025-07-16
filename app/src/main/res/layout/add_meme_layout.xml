@@ -27,6 +27,25 @@
         android:hint="Palavras-chave (separadas por vírgula)"
         android:layout_marginBottom="16dp"/>
 
+    <RadioGroup
+        android:id="@+id/type_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+        <RadioButton
+            android:id="@+id/image_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Imagem"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/sticker_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sticker"/>
+    </RadioGroup>
+
     <Button
         android:id="@+id/save_meme_button"
         android:layout_width="match_parent"

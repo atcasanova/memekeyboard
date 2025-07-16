@@ -32,5 +32,7 @@
         android:text="Add New Meme"
         android:layout_margin="8dp"/>
 
+    <include layout="@layout/keyboard_layout"/>
+
 </LinearLayout>
 
