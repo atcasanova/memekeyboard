@@ -76,6 +76,12 @@ public class AddMemeActivity extends Activity {
     private void updateTypeOptions() {
         if (selectedMemeUri != null && isImageOrVideo(selectedMemeUri)) {
             typeRadioGroup.setVisibility(View.VISIBLE);
+            String mime = getContentResolver().getType(selectedMemeUri);
+            if (mime != null && (mime.equals("image/gif") || mime.startsWith("video/"))) {
+                stickerRadioButton.setText(R.string.animated_sticker);
+            } else {
+                stickerRadioButton.setText(R.string.sticker);
+            }
             // Ensure some option is checked
             if (typeRadioGroup.getCheckedRadioButtonId() == -1) {
                 imageRadioButton.setChecked(true);
