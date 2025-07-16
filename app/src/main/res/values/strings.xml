@@ -2,5 +2,8 @@
     <string name="app_name">Meme Keyboard</string>
     <string name="ime_name">Meme Keyboard</string>
     <string name="subtype_generic">Meme Keyboard</string>
+    <string name="switch_keyboard">Switch Keyboard</string>
+    <string name="remove_meme_title">Remove meme</string>
+    <string name="remove_meme_message">Do you want to remove this meme?</string>
 </resources>
 

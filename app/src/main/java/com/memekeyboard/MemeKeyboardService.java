@@ -8,14 +8,21 @@ import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.net.Uri;
+import android.view.inputmethod.EditorInfo;
+import android.content.ClipDescription;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+
+import androidx.core.content.FileProvider;
+import androidx.core.view.inputmethod.InputConnectionCompat;
+import androidx.core.view.inputmethod.InputContentInfoCompat;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,6 +37,7 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
     private GridView memeGridView;
     private MemeAdapter memeAdapter;
     private EditText searchEditText;
+    private Button switchKeyboardButton;
 
     @Override
     public void onCreate() {
@@ -45,6 +53,7 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
         searchEditText = keyboardLayout.findViewById(R.id.meme_search_edit_text);
         keyboardView = keyboardLayout.findViewById(R.id.keyboard_view);
         Button addMemeButton = keyboardLayout.findViewById(R.id.add_meme_button);
+        switchKeyboardButton = keyboardLayout.findViewById(R.id.switch_keyboard_button);
 
         keyboard = new Keyboard(this, R.xml.qwerty);
         keyboardView.setKeyboard(keyboard);
@@ -59,6 +68,23 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedMemePath = (String) memeAdapter.getItem(position);
                 sendMeme(selectedMemePath);
+            }
+        });
+
+        memeGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final String memePath = (String) memeAdapter.getItem(position);
+                new androidx.appcompat.app.AlertDialog.Builder(MemeKeyboardService.this)
+                        .setTitle(R.string.remove_meme_title)
+                        .setMessage(R.string.remove_meme_message)
+                        .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                            memeManager.deleteMeme(memePath);
+                            refreshMemeList();
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .show();
+                return true;
             }
         });
 
@@ -86,6 +112,18 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
                 startActivity(intent);
             }
         });
+
+        if (switchKeyboardButton != null) {
+            switchKeyboardButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.showInputMethodPicker();
+                    }
+                }
+            });
+        }
 
         return keyboardLayout;
     }
@@ -157,14 +195,40 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
     public void sendMeme(String memePath) {
         File memeFile = memeManager.getMemeFile(memePath);
         if (memeFile != null && memeFile.exists()) {
-            Uri contentUri = Uri.fromFile(memeFile);
+            Uri contentUri = FileProvider.getUriForFile(this,
+                    getPackageName() + ".fileprovider", memeFile);
             InputConnection ic = getCurrentInputConnection();
             if (ic != null) {
+                String mimeType = getContentResolver().getType(contentUri);
+                if (mimeType == null) {
+                    mimeType = "image/*";
+                }
+
+                InputContentInfoCompat info = new InputContentInfoCompat(contentUri,
+                        new ClipDescription(memeFile.getName(), new String[]{mimeType}), null);
+                EditorInfo editorInfo = getCurrentInputEditorInfo();
+                if (InputConnectionCompat.commitContent(ic, editorInfo, info,
+                        InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION, null)) {
+                    return;
+                }
+
+                // Fallback: copy URI to clipboard
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newUri(getContentResolver(), "Meme", contentUri);
                 clipboard.setPrimaryClip(clip);
                 ic.commitText(contentUri.toString(), 1);
             }
+        }
+    }
+
+    private void refreshMemeList() {
+        String query = searchEditText != null ? searchEditText.getText().toString() : "";
+        if (query.isEmpty()) {
+            List<String> all = new ArrayList<>(memeManager.getAllMemesWithKeywords().keySet());
+            memeAdapter.updateData(all);
+        } else {
+            Map<String, String> searchResults = memeManager.searchMemes(query);
+            memeAdapter.updateData(new ArrayList<>(searchResults.keySet()));
         }
     }
 }

@@ -32,6 +32,13 @@
         android:text="Add New Meme"
         android:layout_margin="8dp"/>
 
+    <Button
+        android:id="@+id/switch_keyboard_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/switch_keyboard"
+        android:layout_margin="8dp"/>
+
     <include layout="@layout/keyboard_layout"/>
 
 </LinearLayout>
