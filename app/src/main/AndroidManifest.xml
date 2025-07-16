@@ -13,6 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MemeKeyboard">
 
+        <!-- Activity shown in the app drawer so users can manage their memes -->
+        <activity
+            android:name=".AddMemeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name=".MemeKeyboardService"
             android:permission="android.permission.BIND_INPUT_METHOD"
