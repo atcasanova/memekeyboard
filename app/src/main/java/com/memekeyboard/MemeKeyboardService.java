@@ -19,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import androidx.appcompat.app.AlertDialog;
+import android.content.DialogInterface;
 
 import androidx.core.content.FileProvider;
 import androidx.core.view.inputmethod.InputConnectionCompat;
@@ -75,10 +77,20 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 final String memePath = (String) memeAdapter.getItem(position);
-                memeManager.deleteMeme(memePath);
-                refreshMemeList();
-                android.widget.Toast.makeText(MemeKeyboardService.this,
-                        R.string.meme_removed_toast, android.widget.Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(MemeKeyboardService.this)
+                        .setTitle(R.string.remove_meme_title)
+                        .setMessage(R.string.remove_meme_message)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                memeManager.deleteMeme(memePath);
+                                refreshMemeList();
+                                android.widget.Toast.makeText(MemeKeyboardService.this,
+                                        R.string.meme_removed_toast, android.widget.Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show();
                 return true;
             }
         });
