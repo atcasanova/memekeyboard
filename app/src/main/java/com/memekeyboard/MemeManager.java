@@ -34,7 +34,27 @@ public class MemeManager {
 
     public String addMeme(Uri memeUri, Set<String> keywords, boolean asSticker) throws IOException {
         String prefix = asSticker ? "sticker_" : "image_";
+
+        // Preserve the original file extension so the resulting file has a
+        // proper MIME type when shared through FileProvider.  This helps
+        // messaging apps correctly identify the content type instead of
+        // treating it as plain text.
+        String mimeType = context.getContentResolver().getType(memeUri);
+        String extension = null;
+        if (mimeType != null) {
+            extension = android.webkit.MimeTypeMap.getSingleton()
+                    .getExtensionFromMimeType(mimeType);
+        }
+        if (extension == null) {
+            extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(
+                    memeUri.toString());
+        }
+
         String fileName = prefix + UUID.randomUUID().toString();
+        if (extension != null && !extension.isEmpty()) {
+            fileName += "." + extension;
+        }
+
         File newMemeFile = new File(memeFolder, fileName);
 
         try (InputStream inputStream = context.getContentResolver().openInputStream(memeUri);
