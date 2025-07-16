@@ -1,0 +1,41 @@
+# Arquivos gerados pelo Android Studio e Gradle
+.gradle
+build/
+.idea/
+*.iml
+local.properties
+
+# Arquivos de log e temporários
+*.log
+.DS_Store
+
+# Arquivos de build do aplicativo
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# Dependências baixadas
+/captures/
+.cxx/
+
+# Arquivos do Android Studio
+.idea/workspace.xml
+.idea/libraries
+
+# Arquivos do sistema operacional
+Thumbs.db
+
+# Pasta de memes (se você não quiser versionar os memes)
+/app/src/main/assets/memes/
+/memes/
+*.mp4
+*.gif
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.mp3
+*.wav
+
+

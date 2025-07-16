@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "com.memekeyboard.app-merged_res-25:/layout_meme_grid_item.xml.flat",
+        "source": "com.memekeyboard.app-main-27:/layout/meme_grid_item.xml"
+    },
+    {
+        "merged": "com.memekeyboard.app-merged_res-25:/layout_keyboard_layout.xml.flat",
+        "source": "com.memekeyboard.app-main-27:/layout/keyboard_layout.xml"
+    },
+    {
+        "merged": "com.memekeyboard.app-merged_res-25:/xml_method.xml.flat",
+        "source": "com.memekeyboard.app-main-27:/xml/method.xml"
+    },
+    {
+        "merged": "com.memekeyboard.app-merged_res-25:/layout_add_meme_layout.xml.flat",
+        "source": "com.memekeyboard.app-main-27:/layout/add_meme_layout.xml"
+    },
+    {
+        "merged": "com.memekeyboard.app-merged_res-25:/layout_meme_gallery_layout.xml.flat",
+        "source": "com.memekeyboard.app-main-27:/layout/meme_gallery_layout.xml"
+    }
+]
