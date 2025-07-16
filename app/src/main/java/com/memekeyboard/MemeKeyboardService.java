@@ -29,6 +29,7 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
     private MemeManager memeManager;
     private GridView memeGridView;
     private MemeAdapter memeAdapter;
+    private EditText searchEditText;
 
     @Override
     public void onCreate() {
@@ -41,8 +42,13 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
         View keyboardLayout = getLayoutInflater().inflate(R.layout.meme_gallery_layout, null);
 
         memeGridView = keyboardLayout.findViewById(R.id.meme_grid_view);
-        EditText searchEditText = keyboardLayout.findViewById(R.id.meme_search_edit_text);
+        searchEditText = keyboardLayout.findViewById(R.id.meme_search_edit_text);
+        keyboardView = keyboardLayout.findViewById(R.id.keyboard_view);
         Button addMemeButton = keyboardLayout.findViewById(R.id.add_meme_button);
+
+        keyboard = new Keyboard(this, R.xml.qwerty);
+        keyboardView.setKeyboard(keyboard);
+        keyboardView.setOnKeyboardActionListener(this);
 
         List<String> allMemePaths = new ArrayList<>(memeManager.getAllMemesWithKeywords().keySet());
         memeAdapter = new MemeAdapter(this, allMemePaths);
@@ -94,6 +100,38 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
+        if (searchEditText == null) {
+            return;
+        }
+        switch (primaryCode) {
+            case Keyboard.KEYCODE_DELETE:
+                int length = searchEditText.getText().length();
+                if (length > 0) {
+                    searchEditText.getText().delete(length - 1, length);
+                }
+                break;
+            case Keyboard.KEYCODE_DONE:
+                InputConnection ic = getCurrentInputConnection();
+                if (ic != null) {
+                    ic.commitText("\n", 1);
+                }
+                break;
+            case Keyboard.KEYCODE_MODE_CHANGE:
+                // switch to next keyboard
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    switchToNextInputMethod(false);
+                } else {
+                    requestShowSelf(0);
+                }
+                break;
+            case ' ':
+                searchEditText.append(" ");
+                break;
+            default:
+                char code = (char) primaryCode;
+                searchEditText.append(String.valueOf(code));
+                break;
+        }
     }
 
     @Override

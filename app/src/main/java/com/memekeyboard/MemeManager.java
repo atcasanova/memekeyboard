@@ -32,8 +32,9 @@ public class MemeManager {
         }
     }
 
-    public String addMeme(Uri memeUri, Set<String> keywords) throws IOException {
-        String fileName = UUID.randomUUID().toString();
+    public String addMeme(Uri memeUri, Set<String> keywords, boolean asSticker) throws IOException {
+        String prefix = asSticker ? "sticker_" : "image_";
+        String fileName = prefix + UUID.randomUUID().toString();
         File newMemeFile = new File(memeFolder, fileName);
 
         try (InputStream inputStream = context.getContentResolver().openInputStream(memeUri);

@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -21,6 +23,7 @@ public class AddMemeActivity extends Activity {
     private MemeManager memeManager;
 
     private EditText keywordsEditText;
+    private RadioGroup typeRadioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class AddMemeActivity extends Activity {
         memeManager = new MemeManager(this);
 
         keywordsEditText = findViewById(R.id.keywords_edit_text);
+        typeRadioGroup = findViewById(R.id.type_radio_group);
         Button selectMemeButton = findViewById(R.id.select_meme_button);
         Button saveMemeButton = findViewById(R.id.save_meme_button);
 
@@ -76,8 +80,10 @@ public class AddMemeActivity extends Activity {
         Set<String> keywords = new HashSet<>(Arrays.asList(
                 keywordsString.split(",\\s*")));
 
+        boolean asSticker = typeRadioGroup.getCheckedRadioButtonId() == R.id.sticker_radio;
+
         try {
-            memeManager.addMeme(selectedMemeUri, keywords);
+            memeManager.addMeme(selectedMemeUri, keywords, asSticker);
             Toast.makeText(this, "Meme salvo com sucesso!", Toast.LENGTH_SHORT).show();
             finish(); // Close activity after saving
         } catch (IOException e) {
