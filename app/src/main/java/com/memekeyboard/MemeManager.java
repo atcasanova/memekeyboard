@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import com.arthenica.ffmpegkit.FFmpegKit;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -74,29 +73,6 @@ public class MemeManager {
                     scaled.recycle();
                 }
             }
-
-            mimeType = "image/webp";
-        } else if (asSticker && mimeType != null && (mimeType.equals("image/gif") || mimeType.startsWith("video/"))) {
-            // Convert gif or short video to animated WebP using FFmpeg
-            fileName = prefix + UUID.randomUUID().toString() + ".webp";
-            newMemeFile = new File(memeFolder, fileName);
-
-            File temp = File.createTempFile("meme_convert", "." + extension, context.getCacheDir());
-            try (InputStream inputStream = context.getContentResolver().openInputStream(memeUri);
-                 FileOutputStream outputStream = new FileOutputStream(temp)) {
-                byte[] buffer = new byte[1024];
-                int read;
-                while ((read = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, read);
-                }
-            }
-
-            String cmd = "-y -i " + temp.getAbsolutePath()
-                    + " -vcodec libwebp -preset default -loop 0 -an -vsync 0 "
-                    + "-vf scale=512:512:force_original_aspect_ratio=decrease,fps=15 "
-                    + newMemeFile.getAbsolutePath();
-            FFmpegKit.execute(cmd);
-            temp.delete();
 
             mimeType = "image/webp";
         } else {
