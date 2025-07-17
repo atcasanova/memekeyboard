@@ -26,6 +26,7 @@ import android.content.DialogInterface;
 import androidx.core.content.FileProvider;
 import androidx.core.view.inputmethod.InputConnectionCompat;
 import androidx.core.view.inputmethod.InputContentInfoCompat;
+import androidx.core.view.inputmethod.EditorInfoCompat;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,6 +47,13 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
     public void onCreate() {
         super.onCreate();
         memeManager = new MemeManager(this);
+    }
+
+    @Override
+    public void onStartInput(EditorInfo attribute, boolean restarting) {
+        super.onStartInput(attribute, restarting);
+        String[] mimeTypes = new String[] {"image/png", "image/gif", "image/jpeg", "image/webp"};
+        EditorInfoCompat.setContentMimeTypes(attribute, mimeTypes);
     }
 
     @Override
