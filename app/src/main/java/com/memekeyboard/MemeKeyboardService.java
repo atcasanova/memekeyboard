@@ -227,8 +227,12 @@ public class MemeKeyboardService extends InputMethodService implements KeyboardV
                 Bundle opts = new Bundle();
                 opts.putBoolean("IS_STICKER", isSticker);
 
+                String[] descMimeTypes = mimeType.startsWith("image/")
+                        ? new String[]{mimeType, "image/*"}
+                        : new String[]{mimeType};
+
                 InputContentInfoCompat info = new InputContentInfoCompat(contentUri,
-                        new ClipDescription(memeFile.getName(), new String[]{mimeType}), null);
+                        new ClipDescription(memeFile.getName(), descMimeTypes), null);
 
                 try {
                     info.requestPermission();
